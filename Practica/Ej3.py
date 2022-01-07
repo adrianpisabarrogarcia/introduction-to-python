@@ -72,10 +72,9 @@ Citerios para la contraseña:
 
 if data['minusculas'] == "s" and data['mayusculas'] == "s" and data['simbolos'] == "s" and data['longitud'] > 7 :
     print("FORTALEZA FUERTE")
-else:
-    if ((data['mayusculas'] == "s" and data['minusculas'] == "s") or (data['mayusculas'] == "s" and data['simbolos'] == "s" == "s") or (data['minusculas'] == "s" and data['mayusculas'] == "s") or (data['minusculas'] == "s" and data['simbolos'] == "s")) and data['longitud'] >= 5 :
+elif ((data['mayusculas'] == "s" and data['minusculas'] == "s") or (data['mayusculas'] == "s" and data['simbolos'] == "s" == "s") or (data['minusculas'] == "s" and data['mayusculas'] == "s") or (data['minusculas'] == "s" and data['simbolos'] == "s")) and data['longitud'] >= 5 :
         print("FORTALEZA MEDIA")
-    else:
+else:
         print("FORTALEZA DÉBIL")
 
 

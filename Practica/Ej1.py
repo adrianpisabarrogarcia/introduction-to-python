@@ -42,9 +42,9 @@ while not salir:
     '''print(f"opcion ,{opcion}")'''
     if opcion == "1":
         pedir_usuario()
-    if opcion == "2":
+    elif opcion == "2":
         imprimir_lista_usuarios()
-    if opcion == "3":
+    elif opcion == "3":
         salir = True
     else:
         print("Introduce un número válido")
