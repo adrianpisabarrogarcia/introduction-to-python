@@ -1,15 +1,36 @@
-
-'''lista de usuarios'''
 import random
 import re
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-usuarios = []
+#lista de usuarios
+usuarios = [
+    {
+        'nombre': "adrian",
+        'edad': "23",
+        'password': "12345Abcde",
+        'email': "adrian.pisabarro.garcia@yahoo.es",
+        'departamento': "Desarrollo"
+    },
+    {
+        'nombre': "roberto",
+        'edad': "24",
+        'password': "12345Abcde",
+        'email': "roberto@yahoo.es",
+        'departamento': "Sistemas"
+    },
+    {
+        'nombre': "pepe",
+        'edad': "54",
+        'password': "12345Abcde",
+        'email': "pepe@yahoo.es",
+        'departamento': "Compras"
+    }
+]
 
 
-'''ejercicio 1'''
+#ejercicio 1
 def comprobar_usuario_existente(nombre):
     for usuario in usuarios:
         if usuario['nombre'] == nombre:
@@ -17,12 +38,12 @@ def comprobar_usuario_existente(nombre):
 
     return False
 
-'''ejercicio 2'''
+#ejercicio 2
 def longitud_password():
     longitud = input("Escribe el número de caracteres que quieres que contenga la contraseña: ")
     return int(longitud)
 
-
+#crea una pantalla para escoger: si o no.
 def si_no_pantalla(texto):
     opcion = input(f"¿Quieres incluir {texto} en la contraseña? Escribe 's' o 'n': ").lower()
 
@@ -32,7 +53,7 @@ def si_no_pantalla(texto):
         print("Opcion mal escogida.")
         si_no_pantalla(texto)
 
-''' ejercicio 3 '''
+#ejercicio 3
 def fortaleza_password(data):
     print("""
     Criterios para la contraseña:
@@ -51,7 +72,7 @@ def fortaleza_password(data):
     else:
         print("FORTALEZA DÉBIL")
 
-''' ejercicio 2 '''
+#ejercicio 2
 def generar_password():
     longitud = longitud_password()
     minusculas = si_no_pantalla("minusculas")
@@ -75,7 +96,7 @@ def generar_password():
         todas.extend(lista_mayusculas)
     if simbolos == "s":
         todas.extend(lista_simbolos)
-    ''' Vamos a mezclar el array '''
+    #Vamos a mezclar el array definitivo en el que hemos juntado todo lo que necesitamos
     random.shuffle(todas)
 
     password = ""
@@ -98,7 +119,7 @@ def generar_password():
 
     return password
 
-'''ejercicio 4'''
+#ejercicio 4
 def escoger_departamento():
     '''lista de departamentos'''
     DEPARTAMENTOS = ['Compras', 'Ventas', 'Marketing', "Sistemas", "Desarrollo"]
@@ -114,8 +135,7 @@ def escoger_departamento():
         print("Has introducido mal el numero de departamento, vuélvelo a introducir:")
         escoger_departamento()
 
-
-'''ejercicio 5'''
+#ejercicio 5
 def introducir_email_valido():
     email = input("Introduce un mail válido: ")
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
@@ -126,8 +146,7 @@ def introducir_email_valido():
         print("Email invalido, vuelve a introducir un mail valido.")
         introducir_email_valido()
 
-
-'''ejercicio 6'''
+#ejercicio 6
 def imprimir_usuario_concreto(usuario):
     texto = ""
     texto = texto + "Nombre: " + usuario['nombre'] + " - "
@@ -136,7 +155,7 @@ def imprimir_usuario_concreto(usuario):
     texto = texto + "Departamento: " + usuario['departamento']
     return texto
 
-'''ejercicio 7'''
+#ejercicio 7
 def envio_email_registro(usuario):
     #message = "Subject: Nuevo registro de usuario: " + imprimir_usuario_concreto(usuario)
 
@@ -175,12 +194,7 @@ def envio_email_registro(usuario):
             sender_email, receiver_email, message.as_string()
         )
 
-
-
-
-
-
-
+#crea usuarios, imprime el usuario creado, añade usuarios al array y envia un correo
 def crear_usuario():
 
     nombre = input("Escibe el nombre: ")
@@ -230,10 +244,7 @@ def listar_usuarios():
 
     print("**********************************")
 
-
-
-
-# __main__
+# __main__: programa principal
 repetir = True
 while repetir:
     print("**************************")
