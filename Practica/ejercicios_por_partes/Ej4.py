@@ -1,63 +1,56 @@
 '''
-A continuación, debe solicitar por pantalla el departamento al que debe
-pertenecer el nuevo usuario. Elige 5 departamentos diferentes para elegir.
-(por ejemplo, Compras, Ventas, Marketing...).
+Debe pedir por pantalla un nombre de usuario.
+En el código creado debe existir una lista, tupla,
+diccionario u otra estructura de datos* de usuarios
+existentes.
+Si el nombre existe, no debe dejar crearlo.
 '''
-usuarios = []
-DEPARTAMENTOS = ['Compras', 'Ventas', 'Marketing', "Sistemas", "Desarrollo"]
 
-def escoger_departamento():
-    print("Escoge un número de departamento: ")
-    for numero in range(len(DEPARTAMENTOS)):
-        print((str(numero + 1) + " .- " + DEPARTAMENTOS[numero]))
-    departamento_escogido = int(input())-1
+lista_de_usuarios = ['juan', 'pedro', 'maria', 'jose']
 
-    if departamento_escogido < len(DEPARTAMENTOS):
-        return DEPARTAMENTOS[departamento_escogido]
+def pedir_usuario():
+    nombre_usuario = input('Ingrese su nombre de usuario: ').lower()
+    crearlo = True
+
+    for usuario in lista_de_usuarios:
+        if usuario == nombre_usuario:
+            crearlo = False
+            break
+
+    if crearlo:
+        lista_de_usuarios.append(nombre_usuario)
+        print(f"Añadido el usuario {nombre_usuario} a la lista de usuarios.")
     else:
-        print("Has introducido mal el numero de departamento, vuélvelo a introducir:")
-        escoger_departamento()
+        print(f"El nombre de usuario: {nombre_usuario} ya esta creado. Prueba con otro diferente")
+
+def imprimir_lista_usuarios():
+    texto = "los usuarios son: "
+
+    for usuario in lista_de_usuarios:
+        texto = texto + usuario + " "
+
+    print(texto)
 
 
-def crear_usuario():
-
-    nombre = input("Escibe el nombre: ")
-    edad = input("Escibe la edad: ")
-    departamento = escoger_departamento()
-
-
-    usuario = {
-        'nombre': nombre,
-        'edad': edad,
-        'departamento': departamento
-    }
-
-    usuarios.append(usuario)
-
-def listar_usuarios():
-    for usuario in usuarios:
-        texto = ""
-        texto = texto + "Nombre: " + usuario['nombre'] + " - "
-        texto = texto + "Edad: " + usuario['edad'] + " - "
-        texto = texto + "Departamento: " + usuario['departamento']
-        print(texto)
-
-repetir = True
-while repetir:
-    print("**************************")
-    opcion = input("""
-    1.- Crea un nuevo usuario
-    2.- Muestra todos los usuarios y sus respectivos datos
-    3.- Salir
-    """)
-
-    print("**************************")
+salir = False
+while not salir:
+    opcion = input('''
+    1.- Añadir un nombre de usuario nuevo
+    2.- Imprimir lista de usuarios
+    3.- Salir del programa
+    ''')
+    '''print(f"opcion ,{opcion}")'''
     if opcion == "1":
-        crear_usuario()
+        pedir_usuario()
     elif opcion == "2":
-        listar_usuarios()
+        imprimir_lista_usuarios()
     elif opcion == "3":
-        repetir = False
+        salir = True
     else:
-        print("Has introducido un número incorrecto, vuelve a intentarlo: ")
+        print("Introduce un número válido")
+
+
+
+
+
 

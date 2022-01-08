@@ -1,10 +1,10 @@
 
 '''lista de usuarios'''
-import email
 import random
 import re
-import smtplib
+import smtplib, ssl
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 usuarios = []
 
@@ -132,43 +132,54 @@ def imprimir_usuario_concreto(usuario):
     texto = ""
     texto = texto + "Nombre: " + usuario['nombre'] + " - "
     texto = texto + "Edad: " + usuario['edad'] + " - "
-    """ He eliminado la password para no mostrarla"""
     texto = texto + "Email: " + usuario['email'] + " - "
     texto = texto + "Departamento: " + usuario['departamento']
     return texto
 
 '''ejercicio 7'''
 def envio_email_registro(usuario):
-    from_addr = 'developersweapp@gmail.com'
-    to = str(usuario['email'])
-    message = str(imprimir_usuario_concreto(usuario))
+    #message = "Subject: Nuevo registro de usuario: " + imprimir_usuario_concreto(usuario)
 
-    # credenciales de Gmail
-    username = 'developersweapp@gmail.com'
-    password = '12345Abcde'
+    sender_email = "developersweapp@gmail.com"
+    receiver_email = usuario['email']
+    password = "12345Abcde"
 
+    message = MIMEMultipart("alternative")
+    message["Subject"] = "Nuevo usuario registrado"
+    message["From"] = sender_email
+    message["To"] = receiver_email
+    user_print_email_data = imprimir_usuario_concreto(usuario).replace("-", "<br>")
+    html = """\
+    <html>
+      <body>
+      <h2>¡Felicidades por registrarte """ + usuario['nombre'] +"""!</h2>
+        <p>
+        """ + user_print_email_data +"""
+        </p>
+      </body>
+    </html>
     """
-    server = smtplib.SMTP('smtp.gmail.com:587')
-    server.starttls()
-    server.login(username, password)
-    server.sendmail(from_addr, to, message)
-    server.quit()
-    """
 
-    smtp_host = 'smtp.gmail.com'
-    smtp_port = 587
-    server = smtplib.SMTP()
-    server.connect(smtp_host, smtp_port)
-    server.ehlo()
-    server.starttls()
-    server.login(username, password)
+    # Turn these into plain/html MIMEText objects
+    part2 = MIMEText(html, "html")
 
-    msg = email.MIMEMultipart.MIMEMultipart()
-    msg['From'] = from_addr
-    msg['To'] = email.Utils.COMMASPACE.join(to)
-    msg['Subject'] = "Usuario registrado"
-    msg.attach(MIMEText(message))
-    server.sendmail(from_addr, to, msg.as_string())
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part2)
+
+    # Create secure connection with server and send email
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(
+            sender_email, receiver_email, message.as_string()
+        )
+
+
+
+
+
+
 
 def crear_usuario():
 
@@ -196,15 +207,15 @@ def crear_usuario():
         'departamento': departamento
     }
 
-    '''ejercicio 6'''
+    #ejercicio 6
     print(imprimir_usuario_concreto(usuario))
     usuarios.append(usuario)
-    print(f"Ahora mismo hay {len(usuarios)} usuarios creados")
+    print(f"Ahora mismo hay {len(usuarios)} usuario(s) creado(s).")
 
-    '''ejercicio 7'''
+    #ejercicio 7
     envio_email_registro(usuario)
 
-'''ejercicio 6'''
+#ejercicio 6
 def listar_usuarios():
     print("**********************************")
     for usuario in usuarios:
@@ -222,8 +233,7 @@ def listar_usuarios():
 
 
 
-''' Main '''
-
+# __main__
 repetir = True
 while repetir:
     print("**************************")
